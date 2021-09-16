@@ -34,7 +34,9 @@ const Login = ({navigation}) => {
     return (
       <View {...props}>
         <Text>Bạn Chưa có tài khoản?</Text>
-        <Text style={styles.DNN}>Đăng Ký.</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+          <Text style={styles.DNN}>Đăng Ký.</Text>
+        </TouchableOpacity>
       </View>
     );
   };

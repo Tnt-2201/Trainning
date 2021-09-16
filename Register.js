@@ -25,7 +25,9 @@ const Regiser = ({navigation}) => {
     return (
       <View {...props}>
         <Text>Bạn đã có tài khoản?</Text>
-        <Text style={styles.DN}>Đăng nhập.</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.DN}>Đăng nhập.</Text>
+        </TouchableOpacity>
       </View>
     );
   };
