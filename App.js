@@ -1,14 +1,17 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from './Login';
-import ForgetScreen from './ForgetPassword';
-import RegisterScreen from './Register';
-
+import LoginScreen from './src/components/views/Login';
+import ForgetScreen from './src/components/views/ForgetPassword';
+import RegisterScreen from './src/components/views/Register';
+import {Provider} from 'react-redux';
+import store from './src/redux/store/index';
 const Stack = createNativeStackNavigator();
 
-const MyStack = () => {
+const App = () => {
   return (
+    // <Provider store={store}>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
@@ -21,6 +24,14 @@ const MyStack = () => {
         <Stack.Screen name="ForgetPassword" component={ForgetScreen} />
       </Stack.Navigator>
     </NavigationContainer>
+    // </Provider>
   );
 };
-export default MyStack;
+const NewApp = () => {
+  return (
+    <Provider store={store}>
+      <App />
+    </Provider>
+  );
+};
+export default NewApp;

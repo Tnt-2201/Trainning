@@ -1,16 +1,18 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-
+import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import Actions, {getActionUnmount} from '../../redux/actions';
+import queryString from 'query-string';
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+
 import Feather from 'react-native-vector-icons/Feather';
 
 // const [data, setData] = React.useState({
@@ -21,6 +23,21 @@ import Feather from 'react-native-vector-icons/Feather';
 // });
 
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
+  const [login, setLogin] = useState({
+    username: '',
+    password: '',
+  });
+  const signIn = () => {
+    dispatch({
+      type: Actions.LOGIN_ACCOUNT,
+      body: queryString.stringify({
+        username: login.username,
+        password: login.password,
+      }),
+      data: login,
+    });
+  };
   const Divider = props => {
     return (
       <View {...props}>
@@ -61,6 +78,7 @@ const Login = ({navigation}) => {
         </Ionicons>
         <View style={styles.action}>
           <TextInput
+            onChangeText={value => setLogin({...login, username: value})}
             style={styles.textInput}
             textContentType="emailAddress"
             keyboardType="email-address"
@@ -74,6 +92,7 @@ const Login = ({navigation}) => {
         </Ionicons>
         <View style={styles.action}>
           <TextInput
+            onChangeText={value => setLogin({...login, password: value})}
             style={styles.textInput}
             placeholder="Enter Your Password"
             secureTextEntry={true}
@@ -84,7 +103,7 @@ const Login = ({navigation}) => {
           <Text style={styles.forget}>Quên mật khẩu ?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton}>
+        <TouchableOpacity style={styles.loginButton} onPress={signIn}>
           <Text style={styles.loginButtonTittle}>Đăng Nhập</Text>
         </TouchableOpacity>
         <Divider style={styles.divider} />

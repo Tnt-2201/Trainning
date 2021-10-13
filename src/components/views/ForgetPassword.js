@@ -1,16 +1,14 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 // const [data, setData] = React.useState({

@@ -1,17 +1,26 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-alert */
 import React from 'react';
+import queryString from 'query-string';
+import {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import Actions, {getActionUnmount} from '../../redux/actions';
 
 import {
-  Platform,
   StyleSheet,
   Text,
   View,
   TextInput,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import envs from './config/env';
 import Feather from 'react-native-vector-icons/Feather';
+
+import authAxios from '../../axios/axiosInterceptor';
+
+console.log('URL:>>', envs);
 
 // const [data, setData] = React.useState({
 //   email: '',
@@ -20,7 +29,47 @@ import Feather from 'react-native-vector-icons/Feather';
 //   secureTextEntry: true,
 // });
 
-const Regiser = ({navigation}) => {
+const Register = ({navigation}) => {
+  // const [data, setData] = useState({
+  //   email: 'as',
+  //   password: '123',
+  //   full_name: '123',
+  // });
+
+  // const signUp = () => {
+  //   const body = queryString.stringify({
+  //     email: data.email,
+  //     password: data.password,
+  //     full_name: data.full_name,
+  //   });
+  //   authAxios
+  //     .post('/signupUser', body)
+  //     .then(function (response) {
+  //       alert(JSON.stringify(response.data));
+  //     })
+  //     .catch(function (error) {
+  //       alert(error.message);
+  //     });
+  // };
+
+  const dispatch = useDispatch();
+  const [register, setRegister] = useState({
+    full_name: '',
+    password: '',
+    email: '',
+  });
+  const signUp = () => {
+    dispatch({
+      type: Actions.REGISTER_ACCOUNT,
+      body: queryString.stringify({
+        email: register.email,
+        password: register.password,
+        full_name: register.full_name,
+      }),
+      data: register,
+    });
+  };
+
   const Divider = props => {
     return (
       <View {...props}>
@@ -31,6 +80,7 @@ const Regiser = ({navigation}) => {
       </View>
     );
   };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -42,10 +92,9 @@ const Regiser = ({navigation}) => {
         </Ionicons>
         <View style={styles.action}>
           <TextInput
+            onChangeText={value => setRegister({...register, full_name: value})}
             style={styles.textInput}
-            textContentType="emailAddress"
-            keyboardType="email-address"
-            placeholder="Enter Your Email"
+            placeholder="Enter Your Name"
             autoCapitalize="none"
           />
           <Feather name="check-circle" color="green" size={20} />
@@ -55,6 +104,8 @@ const Regiser = ({navigation}) => {
         </Ionicons>
         <View style={styles.action}>
           <TextInput
+            value={register.password}
+            onChangeText={value => setRegister({...register, password: value})}
             style={styles.textInput}
             placeholder="Enter Your Password"
             secureTextEntry={true}
@@ -66,22 +117,38 @@ const Regiser = ({navigation}) => {
         </Ionicons>
         <View style={styles.action}>
           <TextInput
+            value={register.password}
+            onChangeText={value => setRegister({...register, password: value})}
             style={styles.textInput}
             placeholder="Enter Your Password Again"
             secureTextEntry={true}
           />
           <Feather name="eye-off" color="grey" size={20} />
         </View>
+        <Ionicons name="mail-outline" size={15} color={'black'}>
+          Email
+        </Ionicons>
+        <View style={styles.action}>
+          <TextInput
+            onChangeText={value => setRegister({...register, email: value})}
+            style={styles.textInput}
+            textContentType="emailAddress"
+            keyboardType="email-address"
+            placeholder="Enter Your Email"
+            autoCapitalize="none"
+          />
+          <Feather name="check-circle" color="green" size={20} />
+        </View>
 
-        <TouchableOpacity style={styles.loginButton}>
-          <Text style={styles.loginButtonTittle}>Đăng Nhập</Text>
+        <TouchableOpacity style={styles.loginButton} onPress={signUp}>
+          <Text style={styles.loginButtonTittle}>Đăng Ký</Text>
         </TouchableOpacity>
         <Divider style={styles.divider} />
       </View>
     </View>
   );
 };
-export default Regiser;
+export default Register;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
